@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style type="text/css">
+        .container{
+            width: 100%;   
+        }
+        #signatureparent {
+           
+            width: 60%;
+        }
+        #signature {
+            border: 2px solid black;
+            background-color: darkgrey;
+            width: 100%;
+            height: 300px;
+            /* margin: 0 auto; */
+        }
+        .btn{
+            width: 100%;
+            /* margin: 0 auto; */
+            display: flex;
+            justify-content: space-around;
+        }
+        .btnsave{
+            width: 40%;
+        }
+        .btnclear{
+            width: 40%;
+        }
+        .img{
+            width: 60%;
+            height: 300px;
+            margin-top: 30px;
+            border: 1px solid black;
+            background-color: darkgrey;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="signatureparent">
+            <div id="signature"></div>
+            <br>
+            <div class="btn">
+                <button type="button" class="btnsave" id="save">保存</button>
+                <button type="button" class="btnclear" id="clear">清除</button>
+            </div>
+        </div>  
+        <div class="img">
+            <img src="" id="showimg">
+        </div>
+        
+    </div>
+</body>
+<!-- <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script> -->
+<!-- <script src="https://cdn.bootcss.com/jSignature/2.1.3/flashcanvas.min.js"></script> -->
+<!-- <script src="https://cdn.bootcss.com/jSignature/2.1.3/jSignature.min.js"></script> -->
+<script src="./jquery.min.js"></script>
+<script src="./jSignature.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+            var arguments = {
+                width: '100%',
+                height: '300px',
+                signatureLine: false,//去除默认画布上那条横线
+                lineWidth: '2'
+            };
+            $("#signature").jSignature(arguments);
+
+            $('#clear').click(function () {
+                $("#signature").jSignature("reset");
+            });
+            $('#save').click(function () {
+            //标准格式但是base64会被tp框架过滤，所不校验，但是jSignature默认是使用png
+            var datapair = $("#signature").jSignature("getData", "image");
+            console.log(datapair)
+            var i = new Image();
+            i.src = "data:" + datapair[0] + "," + datapair[1];
+            i.image = datapair[1];
+            console.log(i.image)
+            console.log(i.src)
+            $("#showimg").attr("src", i.src)
+            })
+        })
+</script>
+</html>
